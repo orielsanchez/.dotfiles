@@ -120,6 +120,7 @@ An `autocommit.sh` script is included to automate weekly commits and pushes of a
 ├── Brewfile            # Homebrew dependencies
 ├── zshrc               # Zsh configuration
 ├── zprofile            # Zsh profile
+├── scripts             # Scripts
 ├── gitconfig           # Git configuration
 ├── config/             # Application configurations
 │   ├── nvim/           # Neovim configuration

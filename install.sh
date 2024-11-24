@@ -18,6 +18,8 @@ DOTFILES_CONFIG="$DOTFILES_DIR/config"
 echo "Ensuring necessary directories exist..."
 mkdir -p "$LOCAL_BIN"
 mkdir -p "$CONFIG_DIR"
+mkdir -p "$HOME/projects"         # Projects directory
+mkdir -p "$HOME/tmp"              # Temporary files director
 
 # Symlink Config Files
 echo "Symlinking configuration files..."
