@@ -1,0 +1,43 @@
+# Ignore temporary or backup files created by editors
+*~
+*.swp
+*.swo
+*.tmp
+.DS_Store
+.idea/
+.vscode/
+
+# Ignore sensitive or machine-specific files
+id_rsa
+id_rsa.pub
+known_hosts
+.env
+*.key
+*.crt
+
+# Ignore system-specific files
+.cache/
+.history
+.local/
+.ssh/
+
+# Ignore log files
+*.log
+*.out
+*.err
+
+# Ignore custom folders or files
+node_modules/
+target/      # Rust build directory
+*.pyc
+__pycache__/
+
+# Ignore anything unrelated to dotfiles
+downloads/
+documents/
+pictures/
+music/
+videos/
+
+# Ignore Brew-related cache files
+Caskroom/
