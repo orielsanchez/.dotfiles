@@ -13,6 +13,26 @@ LOCAL_BIN="$HOME/.local/bin"
 DOTFILES_BIN="$DOTFILES_DIR/bin"
 CONFIG_DIR="$HOME/.config"
 DOTFILES_CONFIG="$DOTFILES_DIR/config"
+LAUNCHD_SRC="$DOTFILES_DIR/system/launchd/com.dotfiles.autocommit.plist"
+LAUNCHD_DEST="$HOME/Library/LaunchAgents/com.dotfiles.autocommit.plist"
+
+# Set up Launchd task for auto-commit
+echo "Setting up Launchd task for auto-commit..."
+if [ -f "$LAUNCHD_SRC" ]; then
+    # Ensure LaunchAgents directory exists
+    mkdir -p "$HOME/Library/LaunchAgents"
+
+    # Copy or symlink the plist file
+    ln -sf "$LAUNCHD_SRC" "$LAUNCHD_DEST"
+
+    # Load the Launchd task
+    launchctl unload "$LAUNCHD_DEST" 2>/dev/null || true  # Unload if already loaded
+    launchctl load "$LAUNCHD_DEST"                       # Load the plist file
+
+    echo "Launchd task for auto-commit successfully set up."
+else
+    echo "Error: Launchd plist file not found at $LAUNCHD_SRC"
+fi
 
 # Ensure required directories exist
 echo "Ensuring necessary directories exist..."
