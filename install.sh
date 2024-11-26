@@ -4,7 +4,7 @@ set -e  # Exit immediately if a command exits with a non-zero status
 echo "Starting dotfiles installation..."
 
 echo "Cloning dotfiles repository..."
-if [ ! -d "$HOME/.dotfiles"]; then
+if [ ! -d "$HOME/.dotfiles" ]; then
     git clone git@github.com:orielsanchez/.dotfiles.git ~/.dotfiles
 else
     echo "Dotfiles repository already exists, skipping clone."
@@ -30,7 +30,7 @@ fi
 
 # Install dependencies based on OS
 echo "Installing dependencies for $OS..."
-if [["$OS" == "mac"]]; then
+if [[ "$OS" == "mac" ]]; then
     # macOS-specific installation
     if command -v brew &> /dev/null; then
         echo "Homebrew found, installing packages from Brewfile..."
@@ -58,7 +58,7 @@ if [["$OS" == "mac"]]; then
         echo "Error: Launchd plist file not found at $LAUNCHD_SRC"
     fi
 
-elif [ "$OS" == "arch"]; then
+elif [ "$OS" == "arch" ]; then
     # Arch Linux-specific installation
     echo "installing required packages using pacman..."
     sudo pacman -Syu --needed base-devel git neovim kitty ripgrep fd starship zsh rustup uv
