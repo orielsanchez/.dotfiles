@@ -61,7 +61,7 @@ if [[ "$OS" == "mac" ]]; then
 elif [ "$OS" == "arch" ]; then
     # Arch Linux-specific installation
     echo "installing required packages using pacman..."
-    sudo pacman -Syu --needed base-devel git neovim kitty ripgrep fd starship zsh rustup uv
+    sudo pacman -Syu --needed base-devel git neovim kitty ripgrep fd starship zsh rustup uv unzip base calibre fastfetch fd htop pacman-contrib wget yay
 fi
 
 # Ensure required directories exist
