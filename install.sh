@@ -101,23 +101,6 @@ if ! echo "$PATH" | grep -q "$LOCAL_BIN"; then
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
 fi
 
-# Install Rust Tools
-if command -v cargo &> /dev/null; then
-    echo "Installing Rust-based tools..."
-    cargo install ripgrep fd-find cargo-edit
-else
-    echo "Rust (Cargo) not found, skipping Rust tool installation."
-fi
-
-# Install Python Tools Using `uv`
-if command -v uv &> /dev/null; then
-    echo "Installing Python tools using uv..."
-    uv tool install numpy pandas matplotlib
-    uv tool install fastapi uvicorn black
-else
-    echo "uv not found. Install uv for Python package management: https://github.com/python-poetry/poetry"
-fi
-
 # Backup Existing Files (Optional)
 echo "Backing up existing files..."
 BACKUP_DIR="$DOTFILES_DIR/backups/$(date +%Y%m%d_%H%M%S)"
