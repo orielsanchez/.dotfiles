@@ -9,13 +9,13 @@ if command -v starship &>/dev/null; then
 fi
 
 # Set PATH for macOS (Homebrew)
-if [[ "$(uname)" == "Darwin"]]; then
+if [[ "$(uname)" == "Darwin" ]]; then
     export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 fi
 
 # Linux Specific configuration
-if[[ "$(uname)" == "Linux"]]; then
-    if [[ -f /etc/arch-release]]; then
+if [[ "$(uname)" == "Linux" ]]; then
+    if [[ -f /etc/arch-release ]]; then
         alias update="sudo pacman -Syu"
     else
         alias update = "sudo apt update && sudo apt upgrade"
