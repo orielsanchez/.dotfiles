@@ -71,11 +71,6 @@ mkdir -p "$CONFIG_DIR"
 mkdir -p "$HOME/projects"         # Projects directory
 mkdir -p "$HOME/tmp"              # Temporary files director
 
-# Symlink Config Files
-echo "Symlinking configuration files..."
-ln -sf "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
-ln -sf "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
-
 # Symlink Config Directories
 echo "Symlinking configuration directories..."
 for config in "$DOTFILES_CONFIG"/*; do
@@ -101,13 +96,10 @@ if ! echo "$PATH" | grep -q "$LOCAL_BIN"; then
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
 fi
 
-# Backup Existing Files (Optional)
-echo "Backing up existing files..."
-BACKUP_DIR="$DOTFILES_DIR/backups/$(date +%Y%m%d_%H%M%S)"
-mkdir -p "$BACKUP_DIR"
-for file in "$HOME/.zshrc" "$HOME/.zprofile" "$CONFIG_DIR/*"; do
-    [ -e "$file" ] && mv "$file" "$BACKUP_DIR"
-done
-echo "Backup saved to $BACKUP_DIR."
+# Symlink Config Files
+echo "Symlinking configuration files..."
+ln -sf "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
+ln -sf "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
+
 
 echo "Dotfiles installation complete!"
