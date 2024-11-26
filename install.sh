@@ -4,7 +4,11 @@ set -e  # Exit immediately if a command exits with a non-zero status
 echo "Starting dotfiles installation..."
 
 echo "Cloning dotfiles repository..."
-git clone git@github.com:orielsanchez/.dotfiles.git ~/.dotfiles
+if [ ! -d "$HOME/.dotfiles"]; then
+    git clone git@github.com:orielsanchez/.dotfiles.git ~/.dotfiles
+else
+    echo "Dotfiles repository already exists, skipping clone."
+fi
 
 
 # Paths
@@ -13,25 +17,51 @@ LOCAL_BIN="$HOME/.local/bin"
 DOTFILES_BIN="$DOTFILES_DIR/bin"
 CONFIG_DIR="$HOME/.config"
 DOTFILES_CONFIG="$DOTFILES_DIR/config"
-LAUNCHD_SRC="$DOTFILES_DIR/system/launchd/com.dotfiles.autocommit.plist"
-LAUNCHD_DEST="$HOME/Library/LaunchAgents/com.dotfiles.autocommit.plist"
 
-# Set up Launchd task for auto-commit
-echo "Setting up Launchd task for auto-commit..."
-if [ -f "$LAUNCHD_SRC" ]; then
-    # Ensure LaunchAgents directory exists
-    mkdir -p "$HOME/Library/LaunchAgents"
-
-    # Copy or symlink the plist file
-    ln -sf "$LAUNCHD_SRC" "$LAUNCHD_DEST"
-
-    # Load the Launchd task
-    launchctl unload "$LAUNCHD_DEST" 2>/dev/null || true  # Unload if already loaded
-    launchctl load "$LAUNCHD_DEST"                       # Load the plist file
-
-    echo "Launchd task for auto-commit successfully set up."
+# Determine the OS
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    OS="mac"
+elif [[ -f "/etc/arch-release" ]]; then
+    OS="arch"
 else
-    echo "Error: Launchd plist file not found at $LAUNCHD_SRC"
+    echo "Unsupported OS"
+    exit 1
+fi
+
+# Install dependencies based on OS
+echo "Installing dependencies for $OS..."
+if [["$OS" == "mac"]]; then
+    # macOS-specific installation
+    if command -v brew &> /dev/null; then
+        echo "Homebrew found, installing packages from Brewfile..."
+        brew bundle --file="$DOTFILES_DIR/Brewfile"
+    else 
+        echo "Homebrew not found, installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        brew bundle --file "$DOTFILES_DIR/Brewfile"
+    fi
+    # Setup Launchd task for auto-commit (macOS only)
+    LAUNCHD_SRC="$DOTFILES_DIR/system/launchd/com.dotfiles.autocommit.plist"
+    LAUNCHD_DEST="$HOME/Library/LaunchAgents/com.dotfiles.autocommit.plist"
+    echo "Setting up Launchd task for auto-commit..."
+    if [ -f "$LAUNCHD_SRC" ]; then
+        # Ensure LaunchAgents directory exists
+        mkdir -p "$HOME/Library/LaunchAgents"
+
+        # Copy or symlink the plist file
+        ln -sf "$LAUNCHD_SRC" "$LAUNCHD_DEST"
+        # Load the Launchd task
+        launchctl unload "$LAUNCHD_DEST" 2>/dev/null || true  # Unload if already loaded
+        launchctl load "$LAUNCHD_DEST"                       # Load the plist file
+        echo "Launchd task for auto-commit successfully set up."
+    else
+        echo "Error: Launchd plist file not found at $LAUNCHD_SRC"
+    fi
+
+elif [ "$OS" == "arch"]; then
+    # Arch Linux-specific installation
+    echo "installing required packages using pacman..."
+    sudo pacman -Syu --needed base-devel git neovim kitty ripgrep fd starship zsh rustup uv
 fi
 
 # Ensure required directories exist
@@ -71,15 +101,6 @@ if ! echo "$PATH" | grep -q "$LOCAL_BIN"; then
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
 fi
 
-# Install Dependencies
-echo "Installing dependencies..."
-if command -v brew &> /dev/null; then
-    echo "Homebrew found, installing packages from Brewfile..."
-    brew bundle --file="$DOTFILES_DIR/Brewfile"
-else
-    echo "Homebrew not found, skipping Brewfile installation."
-fi
-
 # Install Rust Tools
 if command -v cargo &> /dev/null; then
     echo "Installing Rust-based tools..."
@@ -91,8 +112,8 @@ fi
 # Install Python Tools Using `uv`
 if command -v uv &> /dev/null; then
     echo "Installing Python tools using uv..."
-    uv install numpy pandas matplotlib
-    uv install fastapi uvicorn black
+    uv tool install numpy pandas matplotlib
+    uv tool install fastapi uvicorn black
 else
     echo "uv not found. Install uv for Python package management: https://github.com/python-poetry/poetry"
 fi
