@@ -90,12 +90,6 @@ for binary in "$DOTFILES_BIN"/*; do
     ln -sf "$binary" "$LOCAL_BIN/$binary_name"
 done
 
-# Add Local Binaries to PATH
-if ! echo "$PATH" | grep -q "$LOCAL_BIN"; then
-    echo "Adding $LOCAL_BIN to PATH in ~/.zshrc..."
-    echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
-fi
-
 # Symlink Config Files
 echo "Symlinking configuration files..."
 ln -sf "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"

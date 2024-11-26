@@ -1,6 +1,7 @@
 alias so="source ~/.zshrc"
 # General Settings
 export EDITOR=vim
+export PATH="$HOME/.local/bin:$PATH"
 
 # Enable starship prompt
 if command -v starship &>/dev/null; then
