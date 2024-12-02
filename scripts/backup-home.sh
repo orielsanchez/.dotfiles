@@ -11,7 +11,7 @@ TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
 BACKUP_DIR="$DESTINATION/backup_$TIMESTAMP"
 mkdir -p "$BACKUP_DIR"
 
-EXCLUDE_FILE="/home/oriel/rsync-exclude.txt"
+EXCLUDE_FILE="/home/oriel/.dotfiles/scripts/rsync-exclude.txt"
 # Run rsync to back up the source directory
 
 OPTIONS="-av --delete --exclude-from=$EXCLUDE_FILE --stats"

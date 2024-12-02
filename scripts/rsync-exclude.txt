@@ -1,4 +1,4 @@
 /tmp
 **/.cache/**
-**/.local/share/Trash/**
+**/.local/share/**
 **/target/**
