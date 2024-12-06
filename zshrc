@@ -1,7 +1,7 @@
 alias so="source ~/.zshrc"
 # General Settings
 export EDITOR=vim
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
 # Enable starship prompt
 if command -v starship &>/dev/null; then
@@ -29,6 +29,7 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l="ls -CF"
 alias so="source ~/.zshrc"
+alias zshrc="nvim ~/.zshrc"
 
 # History configuration
 HISTSIZE=10000
