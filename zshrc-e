@@ -39,5 +39,3 @@ autoload -U compinit && compinit
 autoload -U promptinit && promptinit
 
 fastfetch
-
-[ -f "/Users/oriel/.ghcup/env" ] && . "/Users/oriel/.ghcup/env" # ghcup-env
