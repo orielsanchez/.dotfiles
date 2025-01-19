@@ -30,6 +30,9 @@ alias la='ls -A'
 alias l="ls -CF"
 alias so="source ~/.zshrc"
 alias zshrc="nvim ~/.zshrc"
+alias onedrivesync-down="rclone sync onedrive:library ~/onedrive-library"
+alias onedrivesync-up="rclone sync ~/onedrive-library onedrive:library"
+
 
 # History configuration
 HISTSIZE=10000
@@ -40,3 +43,4 @@ autoload -U compinit && compinit
 autoload -U promptinit && promptinit
 
 fastfetch
+source /usr/share/nvm/init-nvm.sh
