@@ -1,28 +1,33 @@
 # General Settings
 export EDITOR=vim
-export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
-export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 
-# Enable starship prompt
+# Set PATH for Cargo (this is used on both macOS and Linux)
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+
+# macOS-specific Homebrew and curl path
+if [[ "$(uname)" == "Darwin" ]]; then
+    export PATH="/opt/homebrew/bin:/opt/homebrew/opt/curl/bin:$PATH"
+fi
+
+# Enable starship prompt if available
 if command -v starship &>/dev/null; then
     eval "$(starship init zsh)"
     starship preset gruvbox-rainbow -o ~/.config/starship.toml
 fi
 
-# Set PATH for macOS (Homebrew)
+# macOS-specific settings (already covered above, so this is optional)
 if [[ "$(uname)" == "Darwin" ]]; then
-    export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+    export PATH="/opt/homebrew/bin:$PATH"
 fi
 
-# Linux Specific configuration
+# Linux-specific configuration (e.g., update aliases for Linux distributions)
 if [[ "$(uname)" == "Linux" ]]; then
     if [[ -f /etc/arch-release ]]; then
         alias update="sudo pacman -Syu"
     else
-        alias update = "sudo apt update && sudo apt upgrade"
+        alias update="sudo apt update && sudo apt upgrade"
     fi
 fi
-
 
 # Common Aliases
 alias ll='ls -alF'
@@ -33,17 +38,20 @@ alias zshrc="nvim ~/.zshrc"
 alias onedrivesync-down="rclone sync onedrive:library ~/onedrive-library"
 alias onedrivesync-up="rclone sync ~/onedrive-library onedrive:library"
 
-
 # History configuration
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.zsh_history
 
+# Zsh autoload functions
 autoload -U compinit && compinit
 autoload -U promptinit && promptinit
 
+# Optional: Fastfetch
 fastfetch
-source /usr/share/nvm/init-nvm.sh
-=======
 
-[ -f "/Users/oriel/.ghcup/env" ] && . "/Users/oriel/.ghcup/env" # ghcup-envexport PATH="/opt/homebrew/opt/curl/bin:$PATH"
+# Initialize NVM for Node.js (if installed)
+source /usr/share/nvm/init-nvm.sh
+
+# Initialize GHCup (Haskell toolchain) environment if present
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
