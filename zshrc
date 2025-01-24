@@ -1,7 +1,7 @@
-alias so="source ~/.zshrc"
 # General Settings
 export EDITOR=vim
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 
 # Enable starship prompt
 if command -v starship &>/dev/null; then
@@ -44,3 +44,6 @@ autoload -U promptinit && promptinit
 
 fastfetch
 source /usr/share/nvm/init-nvm.sh
+=======
+
+[ -f "/Users/oriel/.ghcup/env" ] && . "/Users/oriel/.ghcup/env" # ghcup-envexport PATH="/opt/homebrew/opt/curl/bin:$PATH"
