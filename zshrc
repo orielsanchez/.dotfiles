@@ -7,7 +7,7 @@ export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 # Enable starship prompt if available
 if command -v starship &>/dev/null; then
     eval "$(starship init zsh)"
-    starship preset gruvbox-rainbow -o ~/.config/starship.toml
+    starship preset nerd-font-symbols -o ~/.config/starship.toml
 fi
 
 # macOS-specific Homebrew and curl path
@@ -32,6 +32,7 @@ alias so="source ~/.zshrc"
 alias zshrc="nvim ~/.zshrc"
 alias onedrivesync-down="rclone sync onedrive:library ~/onedrive-library"
 alias onedrivesync-up="rclone sync ~/onedrive-library onedrive:library"
+alias hx="helix"
 
 # History configuration
 HISTSIZE=10000
